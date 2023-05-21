@@ -5,7 +5,7 @@ It is a modification of https://greasyfork.org/en/scripts/27054-map-linker-googl
 
 # How to install
 
-- install tampermonkey[https://www.tampermonkey.net/]
+- install [tampermonkey](https://www.tampermonkey.net/)
 - open tampermonkey dashboard
 - click the + button
 - copy the contents of tampermonkey.js into the editor pane
