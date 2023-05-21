@@ -1,11 +1,10 @@
 // ==UserScript==
-// @name            Map Linker GoogleMaps
+// @name            GoogleMaps to MapAnt
 // @description     Link Google with other maps
 // @namespace       1d196b78-800f-45a5-8c34-bfcf2f652eb4
 // @version         0.2
 
-// @match			https://maps.google.se/maps*
-// @match			https://www.google.se/maps/*
+// @match			https://www.google.no/maps/*
 // @match			https://www.google.com/maps/*
 
 // @require         http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js
@@ -20,20 +19,7 @@
 // @grant			GM_getResourceURL
 
 
-// @resource		Terraserver 	https://yt3.ggpht.com/-jiYzuprSqZQ/AAAAAAAAAAI/AAAAAAAAAAA/X0J7cmuseqU/s100-c-k-no-mo-rj-c0xffffff/photo.jpg
-// @resource		Wikimapia 		http://monkeyscript.4all.nu/shareResorces/images/wikimapia.org_favicon.ico
-// @resource		Panoramio 		http://monkeyscript.4all.nu/shareResorces/images/panoramio.com.webp
-// @resource		Hitta 			http://monkeyscript.4all.nu/shareResorces/images/hitta.se_favicon.ico
-// @resource		Eniro 			http://monkeyscript.4all.nu/shareResorces/images/eniro.com_favicon.ico
-// @resource		zoomEarth 		http://monkeyscript.4all.nu/shareResorces/images/zoom.earth_globe-search-find-64.png
-// @resource		Wiwosm 			http://monkeyscript.4all.nu/shareResorces/images/Wiwosm_Tool_Labs_logo_thumb.png
-// @resource		Hitchwiki 		http://hitchwiki.org/maps/static/gfx/mobile/app_icons-screens/icon_57x57.png
-// @resource		Bing 			https://www.bing.com/sa/simg/bing_p_rr_teal_min.ico
-// @resource		Flickr 			https://s.yimg.com/pw/favicon.ico
-// @resource		Wikimap 		http://wiki-map.com/favicon.ico
-// @resource		Geonames 		http://www.geonames.org/img/globe.gif
-// @resource		yandex 			https://yandex.com/maps/favicon.png
-// @resource		Openstreetmap 	https://upload.wikimedia.org/wikipedia/commons/b/b0/Openstreetmap_logo.svg
+// @resource		MapAnt 		    https://mapant.no/favicon.ico
 
 // @created         2015-03-06
 // @released        2015-00-00
@@ -92,124 +78,15 @@
 		html = {
 			coordinates : null,
 			positions   : {
-				Panoramio : function(){
-					var returnThis;
-					returnThis = 'http://www.panoramio.com/map/#lt=' + html.coordinates[0] + '&ln=' + html.coordinates[1] + '&z=1&k=2&a=1&tab=1&pl=all';
-					return returnThis;
-				},
-				Wikimapia : function(){
-					returnThis = 'http://wikimapia.org/#lang=en&lat=' + html.coordinates[0] + '&lon=' + html.coordinates[1] + '&z=18&m=b';
-					return returnThis;
-				},
-				Hitta : function(){
-					returnThis = 'https://www.hitta.se/kartan!~' + html.coordinates[0] + ',' + html.coordinates[1] + ',17z/tileLayer!l=1/';
-					return returnThis;
-				},
-				Eniro : function(){
-					returnThis = 'http://kartor.eniro.se/m/U6JNo?zoom=19&center=' + html.coordinates[0] + ',' + html.coordinates[1] + '&layer=aerial';
-					return returnThis;
-				},
-				zoomEarth : function(){
-					returnThis = 'https://zoom.earth/#' + html.coordinates[0] + ',' + html.coordinates[1] + ',18z,sat';
-					return returnThis;
-				},
-				Wiwosm : function(){
-					returnThis = 'https://tools.wmflabs.org/wiwosm/osm-on-ol/commons-on-osm.php?zoom=18&lat=' + html.coordinates[0] + '&lon=' + html.coordinates[1];
-					return returnThis;
-				},
-				Bing : function(){
-					returnThis = 'https://www.bing.com/mapspreview?FORM=EXIPRV&signedup=1&cp=' + html.coordinates[0] + '~' + html.coordinates[1] + '&style=a&lvl=18';
-					return returnThis;
-				},
-				Flickr : function(){
-					returnThis = 'https://www.flickr.com/map?&fLat=' + html.coordinates[0] + '&fLon=' + html.coordinates[1] + '&zl=17';
-					return returnThis;
-				},
-				Hitchwiki : function(){
-					returnThis = 'http://hitchwiki.org/maps/?zoom=18&lat=' + html.coordinates[0] + '&lon=' + html.coordinates[1];
-					return returnThis;
-				},
-				Wikimap : function(){
-					returnThis = ('http://wiki-map.com/map/?locale=sv&lat=' + html.coordinates[0] + '&lng=' + html.coordinates[1]);
-					return returnThis;
-				},
-				Geonames : function(){
-					returnThis = 'http://www.geonames.org/maps/google_' + html.coordinates[0] + '_' + html.coordinates[1] + '.html';
-					return returnThis;
-				},
-				yandex : function(){
-					returnThis = 'https://yandex.com/maps/?ll=' + html.coordinates[1] + '%2C' + html.coordinates[0] + '&z=17&l=sat';
-					return returnThis;
-				},
-				Openstreetmap : function(){
-					returnThis = 'https://www.openstreetmap.org/?mlat=' + html.coordinates[0] + '&mlon=' + html.coordinates[1] + '&zoom=20#map=15/' + html.coordinates[0] + '/' + html.coordinates[1];
-					return returnThis;
-				},
-				Terraserver : function(){
-					returnThis = 'https://www.terraserver.com/view?utf8=%E2%9C%93&searchLat=' + html.coordinates[0] + '&searchLng=' + html.coordinates[1];
+				MapAnt : function(){
+                    const zoom = parseInt(html.coordinates[2]) - 6;
+					returnThis = 'https://mapant.no/#' + zoom + '/' + html.coordinates[0] + '/' + html.coordinates[1];
 					return returnThis;
 				}
 			},
 			dataArray   : function(){
 				return [
-					{ on:0, order:10, button:'Panoramio',   image:'',//GM_getResourceURL('Panoramio'), //'http://monkeyscript.4all.nu/shareResorces/images/panoramio.com.webp',
-					 //'https://lh5.ggpht.com/iX6z62XBBt1b2T0fWnt9EupX1e6yFoUnYwO60z702xIp3-VlJquqYBOSay7aKhd5wbQ=w300-rw',//'https://ssl.panoramio.com/img/favicon.ico'
-					 position: '' // 'http://www.panoramio.com/map/#lt=' + html.coordinates[0] + '&ln=' + html.coordinates[1] + '&z=1&k=2&a=1&tab=1&pl=all'
-					},
-					{ on:1, order:20, button:'Wikimapia',   image:'', //GM_getResourceURL('Wikimapia'), //'http://monkeyscript.4all.nu/shareResorces/images/wikimapia.org_favicon.ico',
-					 //'http://wikimapia.org/favicon.ico?650',
-					 position: '' // 'http://wikimapia.org/#lang=en&lat=' + html.coordinates[0] + '&lon=' + html.coordinates[1] + '&z=18&m=b'
-					},
-					{ on:1, order:80, button:'Hitta',       image:'', //GM_getResourceURL('Hitta'), //'http://monkeyscript.4all.nu/shareResorces/images/hitta.se_favicon.ico',
-					 //https://www.hitta.se/static/img/favicons/favicon.ico
-					 position: '' // 'https://www.hitta.se/kartan!~' + html.coordinates[0] + ',' + html.coordinates[1] + ',17z/tileLayer!l=1/'
-					},
-					{ on:1, order:90, button:'Eniro',       image:'', //GM_getResourceURL('Eniro'), //'http://monkeyscript.4all.nu/shareResorces/images/eniro.com_favicon.ico',
-					 //'http://static.eniro.com/img/profiles/se/favicon.ico',
-					 position: //'http://kartor.eniro.se/m/U6JNo?embed=true&center=' + html.coordinates[0] + ',' + html.coordinates[1] + '&zoom=18&layer=aerial'
-					 '' // 'http://kartor.eniro.se/m/U6JNo?zoom=19&center=' + html.coordinates[0] + ',' + html.coordinates[1] + '&layer=aerial'
-					},
-					{ on:1, order:30, button:'zoomEarth',   image:'', //GM_getResourceURL('zoomEarth'), //'http://monkeyscript.4all.nu/shareResorces/images/zoom.earth_globe-search-find-64.png',
-					 //'https://cdn3.iconfinder.com/data/icons/glypho-travel/64/globe-search-find-64.png',
-					 position: '' // 'https://zoom.earth/#' + html.coordinates[0] + ',' + html.coordinates[1] + ',18z,sat'
-					},
-					{ on:1, order:72, button:'Wiwosm',      image:'', //GM_getResourceURL('Wiwosm'), //'http://monkeyscript.4all.nu/shareResorces/images/Wiwosm_Tool_Labs_logo_thumb.png',
-					 //'https://tools.wmflabs.org/Tool_Labs_logo_thumb.png',
-					 position: '' // 'https://tools.wmflabs.org/wiwosm/osm-on-ol/commons-on-osm.php?zoom=18&lat=' + html.coordinates[0] + '&lon=' + html.coordinates[1]
-					},
-					{ on:1, order:40, button:'Bing',        image:'', //GM_getResourceURL('Bing'), //'https://www.bing.com/sa/simg/bing_p_rr_teal_min.ico',
-					 position: '' // 'https://www.bing.com/mapspreview?FORM=EXIPRV&signedup=1&cp=' + html.coordinates[0] + '~' + html.coordinates[1] + '&style=a&lvl=18'
-					},
-					{ on:1, order:120, button:'Flickr',     image:'', //GM_getResourceURL('Flickr'), //'https://s.yimg.com/pw/favicon.ico',
-					 position: '' // 'https://www.flickr.com/map?&fLat=' + html.coordinates[0] + '&fLon=' + html.coordinates[1] + '&zl=17'
-					},
-					{ on:1, order:100, button:'Hitchwiki',  image:'', //GM_getResourceURL('Hitchwiki'), //'http://hitchwiki.org/maps/static/gfx/mobile/app_icons-screens/icon_57x57.png',
-					 position: '' // 'http://hitchwiki.org/maps/?zoom=18&lat=' + html.coordinates[0] + '&lon=' + html.coordinates[1]
-					},
-					{ on:1, order:50, button:'Wikimap',     image:'', //GM_getResourceURL('Wikimap'), //'http://wiki-map.com/favicon.ico',
-					 position: '' // 'http://wiki-map.com/map/?locale=sv&lat=' + html.coordinates[0] + '&lng=' + html.coordinates[1]
-					},
-					{ on:1, order:70, button:'Geonames',    image:'', //GM_getResourceURL('Geonames'), //'http://www.geonames.org/img/globe.gif',
-					 position: '' // 'http://www.geonames.org/maps/google_' + html.coordinates[0] + '_' + html.coordinates[1] + '.html'
-					},
-					{ on:1, order:110, button:'yandex',     image:'', //GM_getResourceURL('yandex'), //'https://yandex.com/maps/favicon.png',
-					 position: '' // 'https://yandex.com/maps/?ll=' + html.coordinates[1] + '%2C' + html.coordinates[0] + '&z=17&l=sat'
-					},
-					{ on:1, order:60, button:'Openstreetmap', image:'', //GM_getResourceURL('Openstreetmap'), //'https://upload.wikimedia.org/wikipedia/commons/b/b0/Openstreetmap_logo.svg',
-					 position: '' // 'https://www.openstreetmap.org/?mlat=' + html.coordinates[0] + '&mlon=' + html.coordinates[1] + '&zoom=20#map=15/' + html.coordinates[0] + '/' + html.coordinates[1]
-					},
-					{ on:1, order:55, button:'Terraserver', image:'',
-					 position: ''
-					},
-					{ on:0, order:140, button:'', image:'',
-					 position: ''
-					},
-					{ on:0, order:150, button:'', image:'',
-					 position: ''
-					},
-					{ on:0, order:160, button:'', image:'',
-					 position: ''
-					}
+					{ on:1, order:20, button:'MapAnt',   image:'', position: '' },
 				];
 			},
 			thisURL     : function(){
